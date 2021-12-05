@@ -1,6 +1,5 @@
 package TdHotelMesange;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Mesange {
@@ -16,6 +15,7 @@ public class Mesange {
         boolean exit = false;
         char answer = 'N';
         Scanner scanner = new Scanner(System.in);
+        System.out.println("[WELCOME]");
 
         do {
 
@@ -32,29 +32,41 @@ public class Mesange {
                 group= Integer.parseInt(scanner.nextLine());
             } while (group > maxGroup);
 
-            System.out.printf("Group: %d \n", group);
 
-            int indexRoom = 1;
-            for ( int room : rooms ) {
-
-                if (Arrays.stream(rooms).anyMatch(i -> i != 0)){
-                    System.out.printf("No vacancy");
-                    exit = true;
+            int indexRoom;
+            for (indexRoom = 0; indexRoom < rooms.length-1; indexRoom++){
+                if ((indexRoom + 1)% 2 == 0
+                        && group <= 2
+                        && rooms[indexRoom] == 0
+                ){
+                    rooms[indexRoom] = group;
                     break;
                 }
 
-                if (indexRoom % 2 == 0 && group <= 2 ){
-                    room = group;
+                if ((indexRoom + 1) % 2 != 0
+                        && group > 2
+                        && group <= maxGroup
+                        && rooms[indexRoom] == 0
+                ){
+                    rooms[indexRoom] = group;
                     break;
                 }
-
-                if (indexRoom % 2 != 0 && group > 2 && group <= maxGroup && room == 0 ){
-                    room = group;
-                    break;
-                }
-                indexRoom++;
             }
-            System.out.printf("room %d selected for the group with %d \n",indexRoom, group);
+
+            System.out.printf("room %d selected for the group with %d \n",indexRoom +1, group);
+
+            indexRoom = 0 ;
+            for (indexRoom = 0; indexRoom <= rooms.length-1; indexRoom++){
+                System.out.printf("| Room %d: %d  person(s) \n", indexRoom+1, rooms[indexRoom]);
+            }
+
+            indexRoom = 0 ;
+            for (indexRoom = 0; indexRoom <= rooms.length-1; indexRoom++){
+                if (rooms[indexRoom] == 0){
+                    break;
+                }
+            }
+
             System.out.println("Do you want to add new group ? (Y or N)[Default = N]");
             answer = scanner.nextLine().charAt(0);
 
@@ -63,10 +75,8 @@ public class Mesange {
             }
             iterationGlobalProgram ++;
 
-
-//            System.out.println(Arrays.stream(rooms).anyMatch(i -> i != 0));
-
         } while (!exit);
+        System.out.println("[EXIT]");
 
         scanner.close();
     }
