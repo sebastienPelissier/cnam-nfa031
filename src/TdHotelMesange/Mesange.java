@@ -32,7 +32,6 @@ public class Mesange {
                 group= Integer.parseInt(scanner.nextLine());
             } while (group > maxGroup);
 
-
             int indexRoom;
             for (indexRoom = 0; indexRoom < rooms.length-1; indexRoom++){
                 if ((indexRoom + 1)% 2 == 0
@@ -58,13 +57,6 @@ public class Mesange {
             indexRoom = 0 ;
             for (indexRoom = 0; indexRoom <= rooms.length-1; indexRoom++){
                 System.out.printf("| Room %d: %d  person(s) \n", indexRoom+1, rooms[indexRoom]);
-            }
-
-            indexRoom = 0 ;
-            for (indexRoom = 0; indexRoom <= rooms.length-1; indexRoom++){
-                if (rooms[indexRoom] == 0){
-                    break;
-                }
             }
 
             System.out.println("Do you want to add new group ? (Y or N)[Default = N]");
