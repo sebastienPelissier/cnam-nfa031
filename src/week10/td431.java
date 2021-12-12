@@ -1,6 +1,5 @@
 package week10;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class td431 {
@@ -15,7 +14,7 @@ public class td431 {
 
         int [][] sales = new int[sellerLabel.length][carLabel.length];
 
-        int biggerLengthSeller = 0;
+        int biggerLengthSeller = 0, biggerLengthCar = 0;
         for (String seller: sellerLabel) {
             if (biggerLengthSeller < seller.length()){
                 biggerLengthSeller = seller.length();
@@ -27,10 +26,9 @@ public class td431 {
         }
         String carLabelRow = "|" +  spaces + "|";
 
-        int biggerLengthCar = 0;
         for (String car: carLabel) {
-            if (biggerLengthSeller < car.length()){
-                biggerLengthSeller = car.length();
+            if (biggerLengthCar < car.length()){
+                biggerLengthCar = car.length();
             }
         }
         String spacesCar = "";
