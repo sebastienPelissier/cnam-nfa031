@@ -124,8 +124,8 @@ public class naturalIndexing {
         if (dataArray == null || indexRequest < 0) {
             return false;
         }
-        for ( int indexDataArray = 0; indexDataArray <= dataArray.length-1; indexDataArray++){
-            if (indexDataArray != indexRequest){
+        for ( int indexDataArray = 0; indexDataArray <= dataArray.length; indexDataArray++){
+            if (indexDataArray != indexRequest-1){
                continue;
             }
             return true;
