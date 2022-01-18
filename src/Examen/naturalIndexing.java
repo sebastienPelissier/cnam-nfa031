@@ -29,7 +29,7 @@ public class naturalIndexing {
                     dataArray = addElementWithIndex(dataArray);
                     break;
                 case 3:
-                    removeElement(dataArray, scanner);
+                    dataArray = removeElement(dataArray, scanner);
                     break;
                 case 4:
                     break;
@@ -59,22 +59,35 @@ public class naturalIndexing {
 
     }
 
-    static boolean removeElement(char[] dataArray, Scanner scanner)
+    static char[] removeElement(char[] dataArray, Scanner scanner)
     {
-        int answer;
         boolean isIndex = false;
-        System.out.println("What index do you want to remove ?");
-        answer = scanner.nextInt();
+        char [] outputArray = new char [dataArray.length-1];
 
-        isIndex = isIndex(dataArray, answer);
-        if (!isIndex){
-            System.out.println("index not found");
-            return false;
+        int index = 0;
+        do {
+            System.out.println("What index do you want to remove ?");
+            index = scanner.nextInt();
+
+            isIndex = isIndex(dataArray, index);
+            if (!isIndex){
+                System.out.println("index not found");
+            }
+
+        }while (!isIndex);
+        int i = 0;
+        for (; i < index-1; i++){
+            outputArray[i] = dataArray[i];
         }
 
-        System.out.printf("\nYou select index: %s", answer);
+        for (;i < outputArray.length; i++){
+            outputArray[i] = dataArray[i+1];
+        }
 
-        return true;
+
+        System.out.printf("\nYou select index: %s", index);
+
+        return outputArray;
     }
 
     static char[] addElementWithIndex(char[] dataArray)
