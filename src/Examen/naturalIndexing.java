@@ -26,7 +26,7 @@ public class naturalIndexing {
                     showArray(dataArray);
                     break;
                 case 2:
-                    addElementWithIndex(dataArray);
+                    dataArray = addElementWithIndex(dataArray);
                     break;
                 case 3:
                     removeElement(dataArray, scanner);
@@ -77,36 +77,51 @@ public class naturalIndexing {
         return true;
     }
 
-    static boolean addElementWithIndex(char[] dataArray)
+    static char[] addElementWithIndex(char[] dataArray)
     {
         boolean isIndex = false;
         char element = '\n';
+        char [] outputArray = new char [dataArray.length + 1];
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("What element do you want to add ?");
         element = scanner.nextLine().charAt(0);
-        System.out.println("What index do you want to assign with element ?");
-        int index = scanner.nextInt();
 
-        isIndex = isIndex(dataArray, index);
-        if (!isIndex){
-            System.out.println("index not found");
-            return false;
+        int index = 0;
+        do {
+            System.out.println("What index do you want to assign with element ?");
+            index = scanner.nextInt();
+
+            isIndex = isIndex(dataArray, index);
+            if (!isIndex){
+                System.out.println("index not found");
+            }
+
+        }while (!isIndex);
+        int i = 0;
+
+        for (; i < index-1; i++){
+            outputArray[i] = dataArray[i];
         }
 
-        // todo push element to array
-//        dataArray[index] = element;
+        for (;i < index; i++){
+            outputArray[i] = element;
+        }
+
+        for (;i < outputArray.length; i++){
+            outputArray[i] = dataArray[i-1];
+        }
 
         System.out.printf("\nYou select index: %s", element);
 
-        return true;
+        return outputArray;
     }
 
     static boolean isIndex(char[] dataArray, int indexRequest)
     {
 
-        if (dataArray == null) {
+        if (dataArray == null || indexRequest < 0) {
             return false;
         }
         for ( int indexDataArray = 0; indexDataArray <= dataArray.length-1; indexDataArray++){
