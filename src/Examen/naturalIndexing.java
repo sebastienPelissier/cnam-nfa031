@@ -1,121 +1,55 @@
 package Examen;
 
-import java.util.Scanner;
-
 public class naturalIndexing {
 
     public static void main(String[] args)
     {
-        Scanner scanner = new Scanner(System.in);
-        int answer = 0;
+        char [] inputArray = {'a', 'b', 'c', 'd'};
+        char element = 'z';
+        int index = 1;
 
-        char [] dataArray = {'a', 'b', 'c', 'd'};
-        System.out.println("### WELCOME ###");
-        do {
-            System.out.println(
-                    "\nSELECT ACTION\n" +
-                    "SHOW: 1\n"+
-                    "ADD ELEMENT: 2\n" +
-                    "REMOVE ELEMENT: 3\n" +
-                    "EXIT: 4"
-            );
+        showArray(inputArray); // a | b | c | d |
+        inputArray = addElementWithIndex(inputArray, index, element);
+        showArray(inputArray); //  z | a | b | c | d |
 
-            answer = scanner.nextInt();
-            switch (answer){
-                case 1:
-                    showArray(dataArray);
-                    break;
-                case 2:
-                    dataArray = addElementWithIndex(dataArray);
-                    break;
-                case 3:
-                    dataArray = removeElement(dataArray, scanner);
-                    break;
-                case 4:
-                    break;
-                default:
-                    System.out.println("Error : action not found");
-                    break;
-            }
 
-        }while(answer != 4);
+        showArray(inputArray); // a | b | c | d |
+        inputArray = addElementWithoutIndex(inputArray, element);
+        showArray(inputArray); // a | b | c | d | z |
 
-        scanner.close();
+        showArray(inputArray); // a | b | c | d |
+        inputArray = removeElement(inputArray, index);
+        showArray(inputArray); //   b | c | d |
 
     }
 
-    static void showArray(char[] dataArray)
+    static void showArray(char[] inputArray)
     {
         int indexDataArray = 0;
-        System.out.println("### ARRAY ###");
 
-        if (dataArray.length == 0 ){
+        if (inputArray.length == 0 ){
             System.out.println("Your array is empty");
         }
 
-        for (; indexDataArray <= dataArray.length-1; indexDataArray++){
-            System.out.printf("index: %s | value: %s\n", indexDataArray+1, dataArray[indexDataArray]);
+        for (; indexDataArray <= inputArray.length-1; indexDataArray++){
+            System.out.printf("%s | ", inputArray[indexDataArray]);
         }
-
     }
 
-    static char[] removeElement(char[] dataArray, Scanner scanner)
+    static char[] addElementWithIndex(char[] inputArray, int index, char element)
     {
-        boolean isIndex = false;
-        char [] outputArray = new char [dataArray.length-1];
+        char [] outputArray = new char [inputArray.length + 1];
 
-        int index = 0;
-        do {
-            System.out.println("What index do you want to remove ?");
-            index = scanner.nextInt();
-
-            isIndex = isIndex(dataArray, index);
-            if (!isIndex){
-                System.out.println("index not found");
-            }
-
-        }while (!isIndex);
-        int i = 0;
-        for (; i < index-1; i++){
-            outputArray[i] = dataArray[i];
+        // appel de la methode pour tester si l'index demandé est dans le tableau, sinon au arret l'execution de la methode et on renvoie l'array d'origine
+        if (!isIndex(inputArray, index)){
+            System.out.println("index not found");
+            return inputArray;
         }
 
-        for (;i < outputArray.length; i++){
-            outputArray[i] = dataArray[i+1];
-        }
-
-
-        System.out.printf("\nYou select index: %s", index);
-
-        return outputArray;
-    }
-
-    static char[] addElementWithIndex(char[] dataArray)
-    {
-        boolean isIndex = false;
-        char element = '\n';
-        char [] outputArray = new char [dataArray.length + 1];
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("What element do you want to add ?");
-        element = scanner.nextLine().charAt(0);
-
-        int index = 0;
-        do {
-            System.out.println("What index do you want to assign with element ?");
-            index = scanner.nextInt();
-
-            isIndex = isIndex(dataArray, index);
-            if (!isIndex){
-                System.out.println("index not found");
-            }
-
-        }while (!isIndex);
         int i = 0;
 
         for (; i < index-1; i++){
-            outputArray[i] = dataArray[i];
+            outputArray[i] = inputArray[i];
         }
 
         for (;i < index; i++){
@@ -123,24 +57,64 @@ public class naturalIndexing {
         }
 
         for (;i < outputArray.length; i++){
-            outputArray[i] = dataArray[i-1];
+            outputArray[i] = inputArray[i-1];
         }
-
-        System.out.printf("\nYou select index: %s", element);
 
         return outputArray;
     }
 
-    static boolean isIndex(char[] dataArray, int indexRequest)
+    static char[] addElementWithoutIndex(char[] inputArray, char element)
     {
+        char [] outputArray = new char [inputArray.length + 1];
 
+//        copie des elements de inputArray dans  l'outputArray
+        for (int i = 0; i < inputArray.length; i++){
+            outputArray[i] = inputArray[i];
+        }
+
+//      ajout de l'element au denier index de outputArray, soit outputArray.length-1 ou inputArray.length. Je garde le premier nommage
+//      pour garder une cohérance et ne pas perdre le développeur'
+        outputArray[outputArray.length-1] = element;
+
+        return outputArray;
+    }
+
+    static char[] removeElement(char[] inputArray, int index)
+    {
+        char [] outputArray = new char [inputArray.length-1];
+
+        if (!isIndex(inputArray, index)){
+            System.out.println("index not found");
+            return inputArray;
+        }
+
+        int i = 0;
+        for (; i < index-1; i++){
+            outputArray[i] = inputArray[i];
+        }
+
+        for (;i < outputArray.length; i++){
+            outputArray[i] = inputArray[i+1];
+        }
+
+        return outputArray;
+    }
+
+    // test si l'index passer en parametre dans le methode  addElementWithIndex, addElementWithoutIndex et removeElement
+    // sont bien presents dans le tableau avant toute action
+    private static boolean isIndex(char[] dataArray, int indexRequest)
+    {
+//        premier test de la valeur de l'index'
         if (dataArray == null || indexRequest < 0) {
+
             return false;
         }
+
         for ( int indexDataArray = 0; indexDataArray <= dataArray.length; indexDataArray++){
             if (indexDataArray != indexRequest-1){
                continue;
             }
+
             return true;
         }
 
