@@ -12,7 +12,7 @@ public class Mastermind {
             "orange",
             "blanc",
             "violet",
-            "fuchsia"
+            "fushia"
     };
 
     static int NB_COLORS = 4;
@@ -22,10 +22,9 @@ public class Mastermind {
         Scanner scanner = new Scanner(System.in);
         String [] secretCombination = new String[0];
         boolean result = false;
-
         int answer = 0;
-        System.out.println("### WELCOME ###");
 
+        System.out.println("### WELCOME ###");
         do {
             System.out.println(
                     "PLAY: 1\n"+
@@ -40,14 +39,13 @@ public class Mastermind {
                     secretCombination = generateRandomCombination();
                     result = playGame(secretCombination, scanner);
 
-//                    System.out.println(result);
                     if (result){
                         System.out.println("\n###############\n" +
                                 "### YOU WIN ###" +
                                 "\n###############\n"
                         );
                     } else {
-                        System.out.println("### YOU LOSE ###");
+                        System.out.println("### GAME OVER ###");
                     }
                     break;
                 case 2:
@@ -85,39 +83,25 @@ public class Mastermind {
 
     private static boolean playGame(String [] secretCombination, Scanner scanner)
     {
-        showSolution(secretCombination);
-
         boolean exit = false, response = false;
-        int maxTry = 2, totalTry = 0;
-
+        int maxTry = 12, totalTry = 0;
         if (!(secretCombination.length > 0)){
             System.out.println("Error, secret combination is empty");
 
             return false;
         }
-
-        System.out.println(
-                "Combination is generated\n" +
-                "Good Luck ! :)\n"
-        );
+        System.out.println("Combination is generated\n" + "Good Luck ! :)\n");
 
         do {
             boolean result = isEndGame(secretCombination, scanner);
             System.out.println(result);
             totalTry ++;
-
-            System.out.println(totalTry);
-            System.out.println(totalTry == maxTry);
-
-
             if (result){
                 exit = true;
                 response = true;
-
             } else if (totalTry == maxTry) {
                 exit = true;
             }
-
         } while (!exit);
 
        return response;
@@ -155,9 +139,6 @@ public class Mastermind {
         int goodColorWrongPosition = 0;
 
         for (int i = 0; i < userCombination.length; i++) {
-
-            System.out.printf("user %s, cpu %s\n", userCombination[i], secretCombination[i]);
-
             if (userCombination[i].equals(secretCombination[i])) {
                 goodColorAndPosition++;
                 continue;
@@ -170,7 +151,7 @@ public class Mastermind {
             }
         }
 
-        System.out.printf("goodColorAndPosition = %s\ngoodColorWrongPosition = %s\n", goodColorAndPosition, goodColorWrongPosition);
+        System.out.printf("Number of well-placed colors = %s\nNumber of good colors, but misplaced = %s\n", goodColorAndPosition, goodColorWrongPosition);
 
         if (goodColorAndPosition < userCombination.length) {
             return false;
@@ -182,29 +163,37 @@ public class Mastermind {
     private static boolean isEndGame(String [] secretCombination, Scanner scanner )
     {
         String [] userCombination = new String[secretCombination.length];
-
         for(int i=0; i < userCombination.length; i++){
             String answer = "";
-            Boolean isColorValid = false;
-
+            boolean isColorValid = false;
             // Controle, si la valeur entrée par le user est bien une couleur disponible
             // Tant que celui ci ne donne pas une couleur autorisée, on lui indique de la resaisir
             do{
-
                 System.out.printf("Please, enter your combination color %s :", i+1);
                 answer = scanner.nextLine().toLowerCase();
 
-                if(isIn(answer, TAB_REF_COLORS)){
+                if(isIn(answer, TAB_REF_COLORS) && !colorAlreadyPresent(answer, userCombination)){
                     isColorValid = true;
                 } else {
                     System.out.println("\nColor not valid");
                 }
-
             }while(!isColorValid);
-
             userCombination[i] = answer;
         }
-
         return checkUserResponse(userCombination, secretCombination);
+    }
+
+    private static boolean colorAlreadyPresent(String color, String []userCombination)
+    {
+        for (String colorCombination:userCombination) {
+            if (colorCombination == null){
+                return false;
+            }
+            if (!colorCombination.equals(color)){
+                continue;
+            }
+            return true;
+        }
+        return false;
     }
 }
