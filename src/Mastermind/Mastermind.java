@@ -163,22 +163,23 @@ public class Mastermind {
     private static boolean isEndGame(String [] secretCombination, Scanner scanner )
     {
         String [] userCombination = new String[secretCombination.length];
+        String chosenColor = "";
         for(int i=0; i < userCombination.length; i++){
-            String answer = "";
             boolean isColorValid = false;
             // Controle, si la valeur entrée par le user est bien une couleur disponible
             // Tant que celui ci ne donne pas une couleur autorisée, on lui indique de la resaisir
             do{
+                // i+1 pour une meilleure comprehension pour l'utilisateur, le tableau commencant à l'index 0
                 System.out.printf("Please, enter your combination color %s :", i+1);
-                answer = scanner.nextLine().toLowerCase();
-
-                if(isIn(answer, TAB_REF_COLORS) && !colorAlreadyPresent(answer, userCombination)){
+                chosenColor = scanner.nextLine().toLowerCase().trim();
+                if(isIn(chosenColor, TAB_REF_COLORS) && !colorAlreadyPresent(chosenColor, userCombination)){
                     isColorValid = true;
                 } else {
+                    System.out.println(chosenColor);
                     System.out.println("\nColor not valid");
                 }
             }while(!isColorValid);
-            userCombination[i] = answer;
+            userCombination[i] = chosenColor;
         }
         return checkUserResponse(userCombination, secretCombination);
     }
