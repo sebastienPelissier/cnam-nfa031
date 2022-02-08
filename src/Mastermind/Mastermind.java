@@ -171,11 +171,10 @@ public class Mastermind {
             do{
                 // i+1 pour une meilleure comprehension pour l'utilisateur, le tableau commencant à l'index 0
                 System.out.printf("Please, enter your combination color %s :", i+1);
-                chosenColor = scanner.nextLine().toLowerCase().trim();
+                chosenColor = scanner.next().toLowerCase().trim();
                 if(isIn(chosenColor, TAB_REF_COLORS) && !colorAlreadyPresent(chosenColor, userCombination)){
                     isColorValid = true;
                 } else {
-                    System.out.println(chosenColor);
                     System.out.println("\nColor not valid");
                 }
             }while(!isColorValid);
